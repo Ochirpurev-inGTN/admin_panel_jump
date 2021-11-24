@@ -18,7 +18,7 @@ import {
   mdiFormatColorFill,
 } from "@mdi/js";
 
-const mockData = [
+const sampleData: ISideBarSubItems[] = [
   {
     label: "MENU",
     subItems: [
@@ -48,42 +48,34 @@ const mockData = [
           {
             label: "Products",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Product Detail",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Orders",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Customers",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Cart",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Checkout",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Shops",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Add product",
             route: "/dashboard",
-            subItems3: [],
           },
         ],
       },
@@ -110,12 +102,10 @@ const mockData = [
           {
             label: "Vertical",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Horizontal",
             route: "/dashboard",
-            subItems3: [],
           },
         ],
       },
@@ -132,17 +122,14 @@ const mockData = [
           {
             label: "Login",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Register",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Recover Password",
             route: "/dashboard",
-            subItems3: [],
           },
         ],
       },
@@ -154,27 +141,22 @@ const mockData = [
           {
             label: "Starter Page",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Maintenance",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Coming Soon",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "FAQs",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Pricing",
             route: "/dashboard",
-            subItems3: [],
           },
         ],
       },
@@ -197,22 +179,18 @@ const mockData = [
           {
             label: "Basic Tables",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Data Tables",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Responsive Table",
             route: "/dashboard",
-            subItems3: [],
           },
           {
             label: "Editable Table",
             route: "/dashboard",
-            subItems3: [],
           },
         ],
       },
@@ -223,16 +201,17 @@ const mockData = [
 interface IsubItem2 {
   label: string;
   route: string;
-//   subItems3?: [{}];
+  //   subItems3?: [{}];
 }
+
 interface ISideBarSubItems {
   label: string;
-  subItems: [{
+  subItems: {
     label: string;
     route: string;
     icon: string;
-    subItems2: [IsubItem2];
-  }];
+    subItems2: IsubItem2[];
+  }[];
 }
 
 interface ISideBarItem {
@@ -264,7 +243,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
     <div className="py-3 px-1" key={itemData?.label}>
       <p className=" font-semibold text-sm">{itemData?.label}</p>
       {itemData?.subItems!.length > 0 &&
-        itemData?.subItems?.map((children) => {
+        itemData?.subItems.map((children) => {
           return (
             <div key={children?.label}>
               <Link
@@ -325,7 +304,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
                       : " hidden py-2 "
                   }`}
                 >
-                  {children.subItems2?.map((childrenItem) => {
+                  {children.subItems2.map((childrenItem) => {
                     return (
                       <SideBarSubItem
                         itemData={childrenItem}
@@ -524,7 +503,7 @@ const SideBar: React.FC = ({ children }) => {
         </div>
         <div className=" text-sm ">
           {OpenSidebar &&
-            mockData.map((item) => {
+            sampleData.map((item) => {
               return (
                 <SideBarItem
                   key={item?.label}
@@ -548,7 +527,7 @@ const SideBar: React.FC = ({ children }) => {
         </div>
         <div className=" text-sm ">
           {!OpenSidebar &&
-            mockData.map((item) => {
+            sampleData.map((item) => {
               return (
                 <SideBarLogoItem
                   key={item?.label}
