@@ -24,6 +24,9 @@ module.exports = {
       },
       margin: {
         '-15':'-3.7rem'
+      },
+      inset: {
+        20:'4.8rem'
       }
     },
   },

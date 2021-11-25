@@ -383,7 +383,7 @@ const SideBarLogoItem: React.FC<ISideBarItem> = ({
 
               {/* hide and show sub items from main items */}
               <div
-                className={`absolute z-50 left-20 -mt-15 w-60 shadow-md ${
+                className={`absolute z-50 left-20 left -mt-15 w-60 shadow-md bg-gray-100 ${
                   onHovertoShowSubItems === children?.label
                     ? " block "
                     : " hidden"
@@ -517,12 +517,12 @@ const SideBar: React.FC = ({ children }) => {
 
       {/* side bar with only logos */}
       <div
-        className={`w-20  py-4 text-blue-100 text-sm font-medium ${
+        className={`w-20 py-3 text-blue-100 text-sm font-medium ${
           !OpenSidebar ? "block " : "hidden "
         }`}
       >
         <div className="flex items-center justify-center mt-3 text-center py-6">
-          <span className="mx-2 text-2xl font-semibold">JUMP</span>
+          <span className=" text-2xl font-semibold">JUMP</span>
         </div>
         <div className=" text-sm ">
           {!OpenSidebar &&

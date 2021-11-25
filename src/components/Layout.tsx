@@ -4,10 +4,10 @@ import BodyWrapper from "./BodyWrapper";
 const Layout: React.FC = ({ children }) => {
   return (
     <BodyWrapper>
-      <div className="flex min-h-screen bg-gray-300">
+      <div className="flex min-h-screen bg-gray-200">
         <SideBar />
         <section className="w-full">
-          <div className="w-full h-14 shadow-md bg-gray-200 py-3 px-5">
+          <div className="w-full h-14 shadow-md bg-gray-100 py-3 px-5">
               <p className=' text-right'>
               User Name
               </p>
