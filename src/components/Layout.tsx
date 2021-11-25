@@ -1,17 +1,22 @@
-import SideBar from './Sidebar'
-import BodyWrapper from './BodyWrapper'
+import SideBar from "./Sidebar";
+import BodyWrapper from "./BodyWrapper";
 
-const Layout: React.FC = ({children}) => {
-    return (
-        <BodyWrapper>
-            <div className='flex h-screen bg-gray-200'>
-            <SideBar></SideBar>
-            <section className='sd:flex-row flex flex-col p-5'>
-                {children}
-            </section>
-            </div>
-        </BodyWrapper>
-    )
-}
+const Layout: React.FC = ({ children }) => {
+  return (
+    <BodyWrapper>
+      <div className="flex min-h-screen bg-gray-300">
+        <SideBar />
+        <section className="w-full">
+          <div className="w-full h-14 shadow-md bg-gray-200 py-3 px-5">
+              <p className=' text-right'>
+              User Name
+              </p>
+          </div>
+          <div className="">{children}</div>
+        </section>
+      </div>
+    </BodyWrapper>
+  );
+};
 
 export default Layout;

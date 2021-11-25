@@ -30,7 +30,7 @@ const sampleData: ISideBarSubItems[] = [
       },
       {
         label: "Calendar",
-        route: "/dashboard",
+        route: "/calendar",
         icon: mdiCalendarRangeOutline,
         subItems2: [],
       },
@@ -201,7 +201,6 @@ const sampleData: ISideBarSubItems[] = [
 interface IsubItem2 {
   label: string;
   route: string;
-  //   subItems3?: [{}];
 }
 
 interface ISideBarSubItems {
@@ -240,7 +239,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
   };
 
   return (
-    <div className="py-3 px-1" key={itemData?.label}>
+    <div className="py-3 pr-2 w-full" key={itemData?.label}>
       <p className=" font-semibold text-sm">{itemData?.label}</p>
       {itemData?.subItems!.length > 0 &&
         itemData?.subItems.map((children) => {
@@ -252,7 +251,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
               >
                 <a className=" hover:text-blue-200" key={children?.label}>
                   <div
-                    className={`flex items-center justify-between my-5 ${
+                    className={`flex items-center justify-between my-5 pr-2 ${
                       children.label === isActive.mainItem
                         ? "text-blue-200"
                         : " "
@@ -494,14 +493,14 @@ const SideBar: React.FC = ({ children }) => {
       </div>
       {/* side bar with logos and labels */}
       <div
-        className={`w-64 py-4 px-4 text-blue-100 text-sm font-medium ${
+        className={` w-56 md:w-64 xl:w-72 py-4 px-4 text-blue-100 text-sm font-medium ${
           OpenSidebar ? "block " : "hidden "
         }`}
       >
         <div className="flex items-center justify-center mt-3 text-center py-6">
           <span className="mx-2 text-2xl font-semibold">JUMP</span>
         </div>
-        <div className=" text-sm ">
+        <div className=" text-sm px-4 xl:pr-6 pl-1 xl:pl-3">
           {OpenSidebar &&
             sampleData.map((item) => {
               return (
