@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import type { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 // import Link from "next/link";
 
@@ -54,40 +54,87 @@ const InputBoxWithLabel: React.FC<IcustomInput> = ({ label }) => {
       <input
         type={"text"}
         placeholder={label}
+        autoComplete={"off"}
         className="input_in_dashboard_search"
       />
     </div>
   );
 };
-const Dashboard: NextPageWithLayout = () => {
+
+interface IdatePick {
+  label: string;
+  startDate: Date;
+  endDate?: Date;
+}
+
+const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
+  const [OpenCalendar,setOpenCalendar]= useState(false)
+  const handleDateLabel = () => {
+    setOpenCalendar(!OpenCalendar)
+  }
   return (
-    <div className="md:flex-row w-full flex-col ">
+    <div className="">
+      <p className="label_in_dashboard_search">{label}</p>
+      <span onClick={() => handleDateLabel()} className='cursor-pointer bg-gray-600 px-3 py-2 rounded'>
+        {" "}
+        {startDate.toString().slice(0, 10)}{" "}
+        {endDate ? "- " + endDate.toString().slice(0, 10) : ""}
+      </span>
+      <div className={`w-60 h-60 bg-yellow-200 sticky ${OpenCalendar ? 'block' : 'hidden'}`}>
+      
+      </div>
+    </div>
+  );
+};
+
+const Dashboard: NextPageWithLayout = () => {
+  const [myInnterHeight, setmyInnterHeight] = useState(0);
+  useEffect(() => {
+    const currentHeight = global.window.innerHeight;
+    // header height is 56px
+    setmyInnterHeight(currentHeight - 56);
+  }, []);
+
+  return (
+    <div className="md:flex md:flex-row w-full h-full">
       {/* to search */}
-      <div className="p-4 w-72 xl:w-80 text-sm bg-gray-50 h-screen overflow-y-scroll">
+      <div
+        className="p-4 w-72 xl:w-80 text-sm bg-gray-50 overflow-scroll"
+        style={{ maxHeight: myInnterHeight }}
+      >
         <InputBoxWithLabel label="Username" />
         <InputBoxWithLabel label="Email" />
         <InputBoxWithLabel label="Phone" />
-
         <SelectBoxWithLabel label="Country" data={mockData} />
         <SelectBoxWithLabel label="Address" data={mockData} />
+
         <SelectBoxWithLabel label="Visa type" data={mockData} />
         <SelectBoxWithLabel label="Status" data={mockData} />
-        <SelectBoxWithLabel label="Stay duration" data={mockData} />
-        
+        <DatePicker label="Stay duration" startDate={new Date()} endDate={new Date()}/>
         <SelectBoxWithLabel label="Organization 1" data={mockData} />
         <SelectBoxWithLabel label="Organization 2" data={mockData} />
+
         <SelectBoxWithLabel label="Organization 3" data={mockData} />
         <SelectBoxWithLabel label="SNS" data={mockData} />
         <SelectBoxWithLabel label="Registered" data={mockData} />
         <SelectBoxWithLabel label="Last login" data={mockData} />
-        <SelectBoxWithLabel label="Last login" data={mockData} />
-        <SelectBoxWithLabel label="Last login" data={mockData} />
-        <SelectBoxWithLabel label="Last login" data={mockData} />
-        <SelectBoxWithLabel label="Last login" data={mockData} />
-
+        <SelectBoxWithLabel label="Deleted" data={mockData} />
+        <div className="flex m-5 justify-center">
+          <button className="py-3 px-6 m-2 bg-black rounded text-white font-semibold w-30">
+            clear
+          </button>
+          <button className="py-3 px-6 m-2 bg-green-500 rounded text-white font-semibold w-30">
+            Search
+          </button>
+        </div>
       </div>
       {/* to show data */}
-      <div className=""></div>
+      <div
+        className="p-4 w-full text-sm bg-gray-50 overflow-scroll"
+        style={{ maxHeight: myInnterHeight }}
+      >
+        table component goes here
+      </div>
     </div>
   );
 };

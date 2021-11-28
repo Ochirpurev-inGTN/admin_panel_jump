@@ -491,15 +491,16 @@ const SideBar: React.FC = ({ children }) => {
           }`}
         />
       </div>
+
+      <div className="flex items-center text-blue-100 justify-center mt-3 text-center py-6">
+        <span className="mx-2 text-base xl:text-medium font-semibold">JUMP</span>
+      </div>
       {/* side bar with logos and labels */}
       <div
         className={` w-56 md:w-64 xl:w-72 py-4 px-4 text-blue-100 text-sm font-medium ${
           OpenSidebar ? "block " : "hidden "
         }`}
       >
-        <div className="flex items-center justify-center mt-3 text-center py-6">
-          <span className="mx-2 text-2xl font-semibold">JUMP</span>
-        </div>
         <div className=" text-sm px-4 xl:pr-6 pl-1 xl:pl-3">
           {OpenSidebar &&
             sampleData.map((item) => {
@@ -517,13 +518,10 @@ const SideBar: React.FC = ({ children }) => {
 
       {/* side bar with only logos */}
       <div
-        className={`w-20 py-3 text-blue-100 text-sm font-medium ${
+        className={`w-20 py-3 text-blue-100 text-sm font-medium overflow-x-hidden${
           !OpenSidebar ? "block " : "hidden "
         }`}
       >
-        <div className="flex items-center justify-center mt-3 text-center py-6">
-          <span className=" text-2xl font-semibold">JUMP</span>
-        </div>
         <div className=" text-sm ">
           {!OpenSidebar &&
             sampleData.map((item) => {
