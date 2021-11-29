@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-// import Link from "next/link";
-
+import Icon from "@mdi/react";
+import { mdiArrowCollapseLeft, mdiArrowCollapseRight } from "@mdi/js";
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -69,7 +69,7 @@ interface IdatePick {
 
 const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
   const [OpenCalendar, setOpenCalendar] = useState(false);
-  const [Days, SetDays] = useState([0, 1]);
+  const [Days, SetDays] = useState([1, 2]);
 
   const months = [
     "Jan",
@@ -85,10 +85,10 @@ const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
     "Nov",
     "Dec",
   ];
+  const seveDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
   const getNumberOfDaysInMonth = (year: string, month: string) => {
     const Days = new Date(Number(year), Number(month), 0).getDate();
-    console.log("days  ===", Days);
     return Days;
   };
 
@@ -97,13 +97,12 @@ const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
     const DaysArray = [];
     for (let i = 0; i < myDays; i++) {
       DaysArray.push(i + 1);
-      console.log("my i -==", i);
     }
-    console.log('days arra ===', DaysArray);
+    console.log("days arra ===", DaysArray);
     SetDays(DaysArray);
   };
   const handleDateLabel = () => {
-    generateMonth();
+    !OpenCalendar ? generateMonth() : null;
     setOpenCalendar(!OpenCalendar);
   };
 
@@ -119,55 +118,57 @@ const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
         {endDate ? "- " + endDate.toString().slice(0, 10) : ""}
       </span>
       <div
-        className={`w-52 h-60 bg-yellow-200 absolute top-14 left-0 p-3 ${
+        className={`w-60 absolute top-14 left-0 bg-yellow-200 p-3  ${
           OpenCalendar ? "block" : "hidden"
         }`}
       >
-        {/* <span> SSSSS 1</span> <span> SSSSS 2</span>
-        <span> SSSSS 3</span>
-        <span> SSSSS 4</span>
-        <span> SSSSS 5</span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS </span>
-        <span> SSSSS 14</span> */}
-        {Days.map((day) => {
-          return (
-            <span key={day} className="p-1 m-1 bg-yellow-600"> 
-              {day}
-            </span>
-          );
-        })}
+        <div className="flex justify-between py-2">
+          <div className="">
+            {" "}
+            <Icon
+              path={mdiArrowCollapseLeft}
+              title={"Previous month"}
+              size={"1rem"}
+              className="cursor-pointer"
+            />{" "}
+          </div>
+          <div className="">Feb 2020</div>
+          <div className="">
+            <Icon
+              path={mdiArrowCollapseRight}
+              title={"Next month"}
+              size={"1rem"}
+              className=" cursor-pointer"
+            />{" "}
+          </div>
+        </div>
+        <div className=" bg-yellow-400 border-b border-gray-700 grid grid-cols-7 gap-1">
+          {seveDays.map((garig) => {
+            return (
+              <div className="p-1 m-1  text-xs w-6" key={garig}>
+                {garig}
+              </div>
+            );
+          })}
+        </div>
+        <div className="grid grid-cols-7 gap-0">
+          {Days.map((day) => {
+            return (
+              <div
+                key={day}
+                className="p-1 m-1 w-6 cursor-pointer flex justify-center hover:bg-gray-300"
+              >
+                <span>{day}</span>
+              </div>
+            );
+          })}
+        </div>
         {/* <p className="">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Est rerum
             minus non quia beatae? Tempora aliquam aperiam eaque suscipit
             voluptas, dolore cumque modi. Cumque quos nisi dolores, ut in
             mollitia?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est rerum
-            minus non quia beatae? Tempora aliquam aperiam eaque suscipit
-            voluptas, dolore cumque modi. Cumque quos nisi dolores, ut in
-            mollitia?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est rerum
-            minus non quia beatae? Tempora aliquam aperiam eaque suscipit
-            voluptas, dolore cumque modi. Cumque quos nisi dolores, ut in
-            mollitia?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est rerum
-            minus non quia beatae? Tempora aliquam aperiam eaque suscipit
-            voluptas, dolore cumque modi. Cumque quos nisi dolores, ut in
-            mollitia?
+            
           </p> */}
       </div>
     </div>
@@ -189,12 +190,6 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-72 xl:w-80 text-sm bg-gray-50 overflow-scroll"
         style={{ maxHeight: myInnterHeight }}
       >
-        <DatePicker
-          label="Stay duration"
-          startDate={new Date()}
-          // endDate={new Date()}
-        />
-
         <InputBoxWithLabel label="Username" />
         <InputBoxWithLabel label="Email" />
         <InputBoxWithLabel label="Phone" />
@@ -203,6 +198,11 @@ const Dashboard: NextPageWithLayout = () => {
 
         <SelectBoxWithLabel label="Visa type" data={mockData} />
         <SelectBoxWithLabel label="Status" data={mockData} />
+        <DatePicker
+          label="Stay duration"
+          startDate={new Date()}
+          // endDate={new Date()}
+        />
         <SelectBoxWithLabel label="Organization 1" data={mockData} />
         <SelectBoxWithLabel label="Organization 2" data={mockData} />
 
@@ -225,7 +225,8 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-full text-sm bg-gray-50 overflow-scroll"
         style={{ maxHeight: myInnterHeight }}
       >
-        table component goes here
+        <div className="w-60 bg-green-200"></div>
+        <div className="">table goes here</div>
       </div>
     </div>
   );
