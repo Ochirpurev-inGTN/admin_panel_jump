@@ -477,7 +477,7 @@ const SideBar: React.FC = ({ children }) => {
   return (
     <div className="max-h-screen h-screen bg-gray-600 overflow-y-auto">
       <div
-        className={`relative inset-y-0 left-0 z-40 text-blue-200`}
+        className={` text-blue-200`}
         onClick={() => sideBarHandler(!OpenSidebar)}
       >
         <Icon
