@@ -44,18 +44,22 @@ const SelectBoxWithLabel: React.FC<ISelectBox> = ({ label, data }) => {
 };
 
 interface IcustomInput {
+  codeName: string;
   label: string;
+  onchange: (codeName: string, value: string | Date | boolean) => void;
 }
 
-const InputBoxWithLabel: React.FC<IcustomInput> = ({ label }) => {
+const InputBoxWithLabel: React.FC<IcustomInput> = ({ codeName, label, onchange }) => {
   return (
     <div className="my-1">
       <p className="label_in_dashboard_search">{label}</p>
       <input
         type={"text"}
+        name={label}
         placeholder={label}
         autoComplete={"off"}
         className="input_in_dashboard_search"
+        onChange={(e) => onchange(codeName, e.target.value)}
       />
     </div>
   );
@@ -175,13 +179,66 @@ const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
   );
 };
 
+interface IsearchState {
+  userName: string;
+  email: string;
+  phone: string;
+  country: string;
+  address: string;
+  visatype: string;
+  status: string;
+  stayDuration: { start: Date; end?: Date };
+  organization1: string;
+  organization2: string;
+  organization3: string;
+  sns: string;
+  registered: Date;
+  lastLogin: Date;
+  deleted: boolean;
+}
+
+const mockObj: IsearchState = {
+  userName: "hahahaha",
+  email: "hahahaha",
+  phone: "hahahaha",
+  country: "hahahaha",
+  address: "hahahaha",
+  visatype: "hahahaha",
+  status: "hahahaha",
+  stayDuration: { start: new Date(), end: new Date() },
+  organization1: "hahahaha",
+  organization2: "hahahaha",
+  organization3: "hahahaha",
+  sns: "hahahaha",
+  registered: new Date(),
+  lastLogin: new Date(),
+  deleted: true,
+};
+
+
 const Dashboard: NextPageWithLayout = () => {
   const [myInnterHeight, setmyInnterHeight] = useState(0);
+  const [searchState, setsearchState] = useState<IsearchState>(mockObj);
+
   useEffect(() => {
     const currentHeight = global.window.innerHeight;
     // header height is 56px
     setmyInnterHeight(currentHeight - 56);
   }, []);
+  useEffect(() => {
+    console.log('my all states === ', searchState);
+  }, [searchState]);
+  
+  const stateHandler = (label: string,value: string | Date | boolean) => {
+    if (searchState) {
+      searchState.hasOwnProperty(label)
+        ? setsearchState(prev => {return {...prev, [label]: value}})
+        : null;
+    } else {
+      null;
+    }
+    // console.log("my label ===", label);
+  };
 
   return (
     <div className="md:flex md:flex-row w-full h-full relative">
@@ -190,9 +247,9 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-72 xl:w-80 text-sm bg-gray-50 overflow-scroll"
         style={{ maxHeight: myInnterHeight }}
       >
-        <InputBoxWithLabel label="Username" />
-        <InputBoxWithLabel label="Email" />
-        <InputBoxWithLabel label="Phone" />
+        <InputBoxWithLabel codeName="userName" label="Username" onchange={stateHandler} />
+        <InputBoxWithLabel codeName="email" label="Email" onchange={stateHandler}/>
+        <InputBoxWithLabel codeName="phone" label="Phone" onchange={stateHandler}/>
         <SelectBoxWithLabel label="Country" data={mockData} />
         <SelectBoxWithLabel label="Address" data={mockData} />
 
