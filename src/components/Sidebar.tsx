@@ -239,7 +239,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
   };
 
   return (
-    <div className="py-3 pr-2 w-full" key={itemData?.label}>
+    <div className="py-3 w-full" key={itemData?.label}>
       <p className=" font-semibold text-sm">{itemData?.label}</p>
       {itemData?.subItems!.length > 0 &&
         itemData?.subItems.map((children) => {
@@ -475,7 +475,7 @@ const SideBar: React.FC = ({ children }) => {
   };
 
   return (
-    <div className={`max-h-screen h-screen bg-gray-600 overflow-y-auto ${OpenSidebar ? 'w-56 md:w-64 xl:w-72' : 'w-20'}`}>
+    <div className={`max-h-screen h-screen bg-gray-600 overflow-y-auto min-w-min`} >
       <div
         className={` text-blue-200`}
         onClick={() => sideBarHandler(!OpenSidebar)}
@@ -501,7 +501,7 @@ const SideBar: React.FC = ({ children }) => {
           OpenSidebar ? "block " : "hidden "
         }`}
       >
-        <div className=" text-sm px-4 xl:pr-6 pl-1 xl:pl-3">
+        <div className=" text-sm pl-1 xl:pl-3">
           {OpenSidebar &&
             sampleData.map((item) => {
               return (
