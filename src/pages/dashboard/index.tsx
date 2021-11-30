@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-
 import DatePicker from "react-datepicker";
-
+import Table from "../../components/Table";
 import "react-datepicker/dist/react-datepicker.css";
 
 type NextPageWithLayout = NextPage & {
@@ -141,18 +140,18 @@ interface IsearchState {
 }
 
 const mockObj: IsearchState = {
-  userName: "hahahaha",
-  email: "hahahaha",
-  phone: "hahahaha",
-  country: "hahahaha",
-  address: "hahahaha",
-  visatype: "hahahaha",
-  status: "hahahaha",
+  userName: "",
+  email: "",
+  phone: "",
+  country: "",
+  address: "",
+  visatype: "",
+  status: "",
   stayDuration: { start: new Date(), end: new Date() },
-  organization1: "hahahaha",
-  organization2: "hahahaha",
-  organization3: "hahahaha",
-  sns: "hahahaha",
+  organization1: "",
+  organization2: "",
+  organization3: "",
+  sns: "",
   registered: new Date(),
   lastLogin: new Date(),
   deleted: true,
@@ -161,6 +160,7 @@ const mockObj: IsearchState = {
 const Dashboard: NextPageWithLayout = () => {
   const [myInnterHeight, setmyInnterHeight] = useState(0);
   const [searchState, setsearchState] = useState<IsearchState>(mockObj);
+  const [tempToTable, settempToTable] = useState<IsearchState>(mockObj);
 
   useEffect(() => {
     const currentHeight = global.window.innerHeight;
@@ -189,11 +189,11 @@ const Dashboard: NextPageWithLayout = () => {
     } else {
       null;
     }
-    // console.log("my label ===", label);
   };
 
   const searchHandler = () => {
     console.log("my all states === ", searchState);
+    settempToTable({...searchState})
   };
 
   return (
@@ -327,8 +327,7 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-full text-sm bg-gray-50 overflow-scroll"
         style={{ maxHeight: myInnterHeight }}
       >
-        <div className="w-60 bg-green-200"></div>
-        <div className="">table goes here</div>
+        <Table data={[tempToTable]} />
       </div>
     </div>
   );

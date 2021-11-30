@@ -10,7 +10,7 @@ const Layout: React.FC = ({ children }) => {
           <div className="w-full h-14 border-b bg-gray-100 py-3 px-5 flex-none">
             <p className=" text-right">User Name</p>
           </div>
-          <div className="w-full flex-grow">{children}</div>
+          <div className="w-full">{children}</div>
         </section>
       </div>
     </BodyWrapper>

@@ -475,7 +475,7 @@ const SideBar: React.FC = ({ children }) => {
   };
 
   return (
-    <div className="max-h-screen h-screen bg-gray-600 overflow-y-auto">
+    <div className={`max-h-screen h-screen bg-gray-600 overflow-y-auto ${OpenSidebar ? 'w-56 md:w-64 xl:w-72' : 'w-20'}`}>
       <div
         className={` text-blue-200`}
         onClick={() => sideBarHandler(!OpenSidebar)}
@@ -518,7 +518,7 @@ const SideBar: React.FC = ({ children }) => {
 
       {/* side bar with only logos */}
       <div
-        className={`w-20 py-3 text-blue-100 text-sm font-medium overflow-x-hidden${
+        className={`w-20 py-3 text-blue-100 text-sm font-medium overflow-x-hidden ${
           !OpenSidebar ? "block " : "hidden "
         }`}
       >
