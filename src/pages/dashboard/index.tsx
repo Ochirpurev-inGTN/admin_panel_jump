@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import Icon from "@mdi/react";
-import { mdiArrowCollapseLeft, mdiArrowCollapseRight } from "@mdi/js";
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -23,14 +26,25 @@ interface IMockData {
   code: number;
 }
 interface ISelectBox {
+  codeName: string;
   label: string;
   data: IMockData[];
+  onchange: (codeName: string, value: string | Date | boolean) => void;
 }
-const SelectBoxWithLabel: React.FC<ISelectBox> = ({ label, data }) => {
+const SelectBoxWithLabel: React.FC<ISelectBox> = ({
+  codeName,
+  label,
+  data,
+  onchange,
+}) => {
   return (
     <div className="my-1">
       <p className="label_in_dashboard_search">{label}</p>
-      <select placeholder={label} className="select_in_dashboard_search">
+      <select
+        placeholder={label}
+        className="select_in_dashboard_search"
+        onChange={(e) => onchange(codeName, e.target.value)}
+      >
         {data.map((item) => {
           return (
             <option key={item.code} value={item.code}>
@@ -49,7 +63,11 @@ interface IcustomInput {
   onchange: (codeName: string, value: string | Date | boolean) => void;
 }
 
-const InputBoxWithLabel: React.FC<IcustomInput> = ({ codeName, label, onchange }) => {
+const InputBoxWithLabel: React.FC<IcustomInput> = ({
+  codeName,
+  label,
+  onchange,
+}) => {
   return (
     <div className="my-1">
       <p className="label_in_dashboard_search">{label}</p>
@@ -64,116 +82,41 @@ const InputBoxWithLabel: React.FC<IcustomInput> = ({ codeName, label, onchange }
     </div>
   );
 };
-
-interface IdatePick {
+interface IcustomRadio {
+  codeName: string;
   label: string;
-  startDate: Date;
-  endDate?: Date;
+  onchange: (codeName: string, value: string | Date | boolean) => void;
 }
 
-const DatePicker: React.FC<IdatePick> = ({ label, startDate, endDate }) => {
-  const [OpenCalendar, setOpenCalendar] = useState(false);
-  const [Days, SetDays] = useState([1, 2]);
-
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const seveDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
-  const getNumberOfDaysInMonth = (year: string, month: string) => {
-    const Days = new Date(Number(year), Number(month), 0).getDate();
-    return Days;
-  };
-
-  const generateMonth = () => {
-    const myDays = getNumberOfDaysInMonth("2020", "2");
-    const DaysArray = [];
-    for (let i = 0; i < myDays; i++) {
-      DaysArray.push(i + 1);
-    }
-    console.log("days arra ===", DaysArray);
-    SetDays(DaysArray);
-  };
-  const handleDateLabel = () => {
-    !OpenCalendar ? generateMonth() : null;
-    setOpenCalendar(!OpenCalendar);
-  };
-
+const RadioButtonWithLabel: React.FC<IcustomRadio> = ({
+  codeName,
+  label,
+  onchange,
+}) => {
   return (
-    <div className="relative">
+    <div className="my-1">
       <p className="label_in_dashboard_search">{label}</p>
-      <span
-        onClick={() => handleDateLabel()}
-        className="cursor-pointer bg-gray-200 px-3 py-2 rounded"
-      >
-        {" "}
-        {startDate.toString().slice(0, 10)}{" "}
-        {endDate ? "- " + endDate.toString().slice(0, 10) : ""}
-      </span>
-      <div
-        className={`w-60 absolute top-14 left-0 bg-yellow-200 p-3  ${
-          OpenCalendar ? "block" : "hidden"
-        }`}
-      >
-        <div className="flex justify-between py-2">
-          <div className="">
-            {" "}
-            <Icon
-              path={mdiArrowCollapseLeft}
-              title={"Previous month"}
-              size={"1rem"}
-              className="cursor-pointer"
-            />{" "}
-          </div>
-          <div className="">Feb 2020</div>
-          <div className="">
-            <Icon
-              path={mdiArrowCollapseRight}
-              title={"Next month"}
-              size={"1rem"}
-              className=" cursor-pointer"
-            />{" "}
-          </div>
+      <div className="flex justify-center">
+        <div className=" flex justify-center items-center">
+          <input
+            type={"radio"}
+            name={codeName}
+            value={"yes"}
+            className="w-8"
+            onChange={(e) => onchange(codeName, e.target.value)}
+          />
+          <label>Yes</label>
         </div>
-        <div className=" bg-yellow-400 border-b border-gray-700 grid grid-cols-7 gap-1">
-          {seveDays.map((garig) => {
-            return (
-              <div className="p-1 m-1  text-xs w-6" key={garig}>
-                {garig}
-              </div>
-            );
-          })}
+        <div className=" flex justify-center items-center w-20">
+          <input
+            type={"radio"}
+            name={codeName}
+            value={"no"}
+            className="w-8"
+            onChange={(e) => onchange(codeName, e.target.value)}
+          />
+          <label>No</label>
         </div>
-        <div className="grid grid-cols-7 gap-0">
-          {Days.map((day) => {
-            return (
-              <div
-                key={day}
-                className="p-1 m-1 w-6 cursor-pointer flex justify-center hover:bg-gray-300"
-              >
-                <span>{day}</span>
-              </div>
-            );
-          })}
-        </div>
-        {/* <p className="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est rerum
-            minus non quia beatae? Tempora aliquam aperiam eaque suscipit
-            voluptas, dolore cumque modi. Cumque quos nisi dolores, ut in
-            mollitia?
-            
-          </p> */}
       </div>
     </div>
   );
@@ -215,7 +158,6 @@ const mockObj: IsearchState = {
   deleted: true,
 };
 
-
 const Dashboard: NextPageWithLayout = () => {
   const [myInnterHeight, setmyInnterHeight] = useState(0);
   const [searchState, setsearchState] = useState<IsearchState>(mockObj);
@@ -225,19 +167,33 @@ const Dashboard: NextPageWithLayout = () => {
     // header height is 56px
     setmyInnterHeight(currentHeight - 56);
   }, []);
-  useEffect(() => {
-    console.log('my all states === ', searchState);
-  }, [searchState]);
-  
-  const stateHandler = (label: string,value: string | Date | boolean) => {
+
+  const stateHandler = (
+    codeName: string,
+    value: string | Date | boolean | object | null,
+    subCodeName?: string
+  ) => {
     if (searchState) {
-      searchState.hasOwnProperty(label)
-        ? setsearchState(prev => {return {...prev, [label]: value}})
+      searchState.hasOwnProperty(codeName)
+        ? subCodeName
+          ? setsearchState((prev) => {
+              return {
+                ...prev,
+                [codeName]: { ...prev.stayDuration, [subCodeName]: value },
+              };
+            })
+          : setsearchState((prev) => {
+              return { ...prev, [codeName]: value };
+            })
         : null;
     } else {
       null;
     }
     // console.log("my label ===", label);
+  };
+
+  const searchHandler = () => {
+    console.log("my all states === ", searchState);
   };
 
   return (
@@ -247,32 +203,121 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-72 xl:w-80 text-sm bg-gray-50 overflow-scroll"
         style={{ maxHeight: myInnterHeight }}
       >
-        <InputBoxWithLabel codeName="userName" label="Username" onchange={stateHandler} />
-        <InputBoxWithLabel codeName="email" label="Email" onchange={stateHandler}/>
-        <InputBoxWithLabel codeName="phone" label="Phone" onchange={stateHandler}/>
-        <SelectBoxWithLabel label="Country" data={mockData} />
-        <SelectBoxWithLabel label="Address" data={mockData} />
-
-        <SelectBoxWithLabel label="Visa type" data={mockData} />
-        <SelectBoxWithLabel label="Status" data={mockData} />
-        <DatePicker
-          label="Stay duration"
-          startDate={new Date()}
-          // endDate={new Date()}
+        <InputBoxWithLabel
+          codeName="userName"
+          label="Username"
+          onchange={stateHandler}
         />
-        <SelectBoxWithLabel label="Organization 1" data={mockData} />
-        <SelectBoxWithLabel label="Organization 2" data={mockData} />
+        <InputBoxWithLabel
+          codeName="email"
+          label="Email"
+          onchange={stateHandler}
+        />
+        <InputBoxWithLabel
+          codeName="phone"
+          label="Phone"
+          onchange={stateHandler}
+        />
+        <SelectBoxWithLabel
+          label="Country"
+          data={mockData}
+          codeName="country"
+          onchange={stateHandler}
+        />
+        <SelectBoxWithLabel
+          label="Address"
+          data={mockData}
+          codeName="address"
+          onchange={stateHandler}
+        />
 
-        <SelectBoxWithLabel label="Organization 3" data={mockData} />
-        <SelectBoxWithLabel label="SNS" data={mockData} />
-        <SelectBoxWithLabel label="Registered" data={mockData} />
-        <SelectBoxWithLabel label="Last login" data={mockData} />
-        <SelectBoxWithLabel label="Deleted" data={mockData} />
+        <SelectBoxWithLabel
+          label="Visa type"
+          data={mockData}
+          codeName="visatype"
+          onchange={stateHandler}
+        />
+        <SelectBoxWithLabel
+          label="Status"
+          data={mockData}
+          codeName="status"
+          onchange={stateHandler}
+        />
+        <div className="">
+          <p className="">Stay duration</p>
+          <div className="flex">
+            <DatePicker
+              selected={searchState.stayDuration.start}
+              startDate={searchState.stayDuration.start}
+              selectsStart
+              endDate={searchState.stayDuration.end}
+              onChange={(date) => stateHandler("stayDuration", date, "start")}
+              className="m-1 w-24 p-1 border"
+            />
+            <DatePicker
+              selected={searchState.stayDuration.end}
+              startDate={searchState.stayDuration.start}
+              selectsEnd
+              endDate={searchState.stayDuration.end}
+              onChange={(date) => stateHandler("stayDuration", date, "end")}
+              className="m-1 w-24 p-1 border"
+            />
+          </div>
+        </div>
+        <SelectBoxWithLabel
+          label="Organization 1"
+          data={mockData}
+          codeName="organization1"
+          onchange={stateHandler}
+        />
+        <SelectBoxWithLabel
+          label="Organization 2"
+          data={mockData}
+          codeName="organization2"
+          onchange={stateHandler}
+        />
+
+        <SelectBoxWithLabel
+          label="Organization 3"
+          data={mockData}
+          codeName="organization3"
+          onchange={stateHandler}
+        />
+        <SelectBoxWithLabel
+          label="SNS"
+          data={mockData}
+          codeName="sns"
+          onchange={stateHandler}
+        />
+        <div className="">
+          <p className="">Registered</p>
+          <DatePicker
+            selected={searchState.registered}
+            onChange={(date) => stateHandler("registered", date)}
+            className="m-1 w-24 p-1 border"
+          />
+        </div>
+        <div className="">
+          <p className="">Last login</p>
+          <DatePicker
+            selected={searchState.lastLogin}
+            onChange={(date) => stateHandler("lastLogin", date)}
+            className="m-1 w-24 p-1 border"
+          />
+        </div>
+        <RadioButtonWithLabel
+          label="Deleted"
+          codeName="deleted"
+          onchange={stateHandler}
+        />
         <div className="flex m-5 justify-center">
           <button className="py-3 px-6 m-2 bg-black rounded text-white font-semibold w-30">
             clear
           </button>
-          <button className="py-3 px-6 m-2 bg-green-500 rounded text-white font-semibold w-30">
+          <button
+            className="py-3 px-6 m-2 bg-green-500 rounded text-white font-semibold w-30"
+            onClick={() => searchHandler()}
+          >
             Search
           </button>
         </div>
