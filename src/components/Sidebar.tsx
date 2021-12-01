@@ -36,7 +36,7 @@ const sampleData: ISideBarSubItems[] = [
       },
       {
         label: "Chat",
-        route: "/dashboard",
+        route: "/chat",
         icon: mdiChat,
         subItems2: [],
       },

@@ -3,6 +3,8 @@ import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import DatePicker from "react-datepicker";
 import Table from "../../components/Table";
+import { useForm, SubmitHandler } from "react-hook-form";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 type NextPageWithLayout = NextPage & {
@@ -59,26 +61,17 @@ const SelectBoxWithLabel: React.FC<ISelectBox> = ({
 interface IcustomInput {
   codeName: string;
   label: string;
-  onchange: (codeName: string, value: string | Date | boolean) => void;
 }
 
-const InputBoxWithLabel: React.FC<IcustomInput> = ({
-  codeName,
-  label,
-  onchange,
-}) => {
+const InputBoxWithLabel: React.FC<IcustomInput> = ({ codeName, label }) => {
   return (
-    <div className="my-1">
-      <p className="label_in_dashboard_search">{label}</p>
-      <input
-        type={"text"}
-        name={label}
-        placeholder={label}
-        autoComplete={"off"}
-        className="input_in_dashboard_search"
-        onChange={(e) => onchange(codeName, e.target.value)}
-      />
-    </div>
+    <input
+      type={"text"}
+      name={label}
+      placeholder={label}
+      autoComplete={"off"}
+      className="input_in_dashboard_search"
+    />
   );
 };
 interface IcustomRadio {
@@ -157,10 +150,20 @@ const mockObj: IsearchState = {
   deleted: true,
 };
 
-const Dashboard: NextPageWithLayout = () => {
+type Iinputs = {};
+const Chat: NextPageWithLayout = () => {
   const [myInnterHeight, setmyInnterHeight] = useState(0);
   const [searchState, setsearchState] = useState<IsearchState>(mockObj);
   const [tempToTable, settempToTable] = useState<IsearchState>(mockObj);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IsearchState>();
+
+  const onSubmit: SubmitHandler<IsearchState> = (data) =>
+    console.log("my form data===", data);
 
   useEffect(() => {
     const currentHeight = global.window.innerHeight;
@@ -193,7 +196,7 @@ const Dashboard: NextPageWithLayout = () => {
 
   const searchHandler = () => {
     console.log("my all states === ", searchState);
-    settempToTable({...searchState})
+    settempToTable({ ...searchState });
   };
 
   return (
@@ -203,137 +206,34 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-72 xl:w-80 text-sm bg-gray-50 overflow-scroll max-h-[calc(100vh-56px)]"
         // style={{ maxHeight: myInnterHeight }}
       >
-        <InputBoxWithLabel
-          codeName="userName"
-          label="Username"
-          onchange={stateHandler}
-        />
-        <InputBoxWithLabel
-          codeName="email"
-          label="Email"
-          onchange={stateHandler}
-        />
-        <InputBoxWithLabel
-          codeName="phone"
-          label="Phone"
-          onchange={stateHandler}
-        />
-        <SelectBoxWithLabel
-          label="Country"
-          data={mockData}
-          codeName="country"
-          onchange={stateHandler}
-        />
-        <SelectBoxWithLabel
-          label="Address"
-          data={mockData}
-          codeName="address"
-          onchange={stateHandler}
-        />
-
-        <SelectBoxWithLabel
-          label="Visa type"
-          data={mockData}
-          codeName="visatype"
-          onchange={stateHandler}
-        />
-        <SelectBoxWithLabel
-          label="Status"
-          data={mockData}
-          codeName="status"
-          onchange={stateHandler}
-        />
-        <div className="">
-          <p className="">Stay duration</p>
-          <div className="flex">
-            <DatePicker
-              selected={searchState.stayDuration.start}
-              startDate={searchState.stayDuration.start}
-              selectsStart
-              endDate={searchState.stayDuration.end}
-              onChange={(date) => stateHandler("stayDuration", date, "start")}
-              className="m-1 w-24 p-1 border"
-            />
-            <DatePicker
-              selected={searchState.stayDuration.end}
-              startDate={searchState.stayDuration.start}
-              selectsEnd
-              endDate={searchState.stayDuration.end}
-              onChange={(date) => stateHandler("stayDuration", date, "end")}
-              className="m-1 w-24 p-1 border"
-            />
-          </div>
-        </div>
-        <SelectBoxWithLabel
-          label="Organization 1"
-          data={mockData}
-          codeName="organization1"
-          onchange={stateHandler}
-        />
-        <SelectBoxWithLabel
-          label="Organization 2"
-          data={mockData}
-          codeName="organization2"
-          onchange={stateHandler}
-        />
-
-        <SelectBoxWithLabel
-          label="Organization 3"
-          data={mockData}
-          codeName="organization3"
-          onchange={stateHandler}
-        />
-        <SelectBoxWithLabel
-          label="SNS"
-          data={mockData}
-          codeName="sns"
-          onchange={stateHandler}
-        />
-        <div className="">
-          <p className="">Registered</p>
-          <DatePicker
-            selected={searchState.registered}
-            onChange={(date) => stateHandler("registered", date)}
-            className="m-1 w-24 p-1 border"
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            defaultValue={"chicken"}
+            {...register("userName")}
+            className="input_in_dashboard_search"
           />
-        </div>
-        <div className="">
-          <p className="">Last login</p>
-          <DatePicker
-            selected={searchState.lastLogin}
-            onChange={(date) => stateHandler("lastLogin", date)}
-            className="m-1 w-24 p-1 border"
+          <input defaultValue={"idii"} {...register("email")} />
+          <InputBoxWithLabel
+            codeName="address"
+            label="Address"
+            {...register("address")}
           />
-        </div>
-        <RadioButtonWithLabel
-          label="Deleted"
-          codeName="deleted"
-          onchange={stateHandler}
-        />
-        <div className="flex m-5 justify-center">
-          <button className="py-3 px-6 m-2 bg-black rounded text-white font-semibold w-30">
-            clear
-          </button>
-          <button
-            className="py-3 px-6 m-2 bg-green-500 rounded text-white font-semibold w-30"
-            onClick={() => searchHandler()}
-          >
-            Search
-          </button>
-        </div>
+          <input type={"submit"} />
+        </form>
       </div>
       {/* to show data */}
       <div
         className="p-4 w-full text-sm bg-gray-50 overflow-scroll max-h-[calc(100vh-56px)]"
         // style={{ maxHeight: myInnterHeight }}
       >
+        <p className="">this chat component</p>
         <Table data={[tempToTable]} />
       </div>
     </div>
   );
 };
-Dashboard.getLayout = (page) => {
+Chat.getLayout = (page) => {
   return <Layout>{page}</Layout>;
 };
 
-export default Dashboard;
+export default Chat;
