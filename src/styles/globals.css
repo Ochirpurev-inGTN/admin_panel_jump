@@ -11,3 +11,6 @@
 .label_in_dashboard_search {
     @apply text-gray-600 my-2
 }
+.button_in_dashboard_search {
+    @apply text-gray-600 bg-blue-100 my-2 p-2 px-4
+}
