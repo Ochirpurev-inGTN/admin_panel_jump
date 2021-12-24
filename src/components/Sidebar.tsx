@@ -30,13 +30,13 @@ const sampleData: ISideBarSubItems[] = [
       },
       {
         label: "Calendar",
-        route: "/dashboard",
+        route: "/calendar",
         icon: mdiCalendarRangeOutline,
         subItems2: [],
       },
       {
         label: "Chat",
-        route: "/dashboard",
+        route: "/chat",
         icon: mdiChat,
         subItems2: [],
       },
@@ -201,7 +201,6 @@ const sampleData: ISideBarSubItems[] = [
 interface IsubItem2 {
   label: string;
   route: string;
-  //   subItems3?: [{}];
 }
 
 interface ISideBarSubItems {
@@ -240,7 +239,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
   };
 
   return (
-    <div className="py-3 px-1" key={itemData?.label}>
+    <div className="py-3 w-full" key={itemData?.label}>
       <p className=" font-semibold text-sm">{itemData?.label}</p>
       {itemData?.subItems!.length > 0 &&
         itemData?.subItems.map((children) => {
@@ -252,7 +251,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({
               >
                 <a className=" hover:text-blue-200" key={children?.label}>
                   <div
-                    className={`flex items-center justify-between my-5 ${
+                    className={`flex items-center justify-between my-5 pr-2 ${
                       children.label === isActive.mainItem
                         ? "text-blue-200"
                         : " "
@@ -384,7 +383,7 @@ const SideBarLogoItem: React.FC<ISideBarItem> = ({
 
               {/* hide and show sub items from main items */}
               <div
-                className={`absolute z-50 left-20 -mt-15 w-60 shadow-md ${
+                className={`absolute z-50 left-20 left -mt-15 w-60 shadow-md bg-gray-100 ${
                   onHovertoShowSubItems === children?.label
                     ? " block "
                     : " hidden"
@@ -476,9 +475,9 @@ const SideBar: React.FC = ({ children }) => {
   };
 
   return (
-    <div className="max-h-screen h-screen bg-gray-600 overflow-y-auto">
+    <div className={`max-h-screen h-screen bg-gray-600 overflow-y-auto min-w-min`} >
       <div
-        className={`relative inset-y-0 left-0 z-40 text-blue-200`}
+        className={` text-blue-200`}
         onClick={() => sideBarHandler(!OpenSidebar)}
       >
         <Icon
@@ -492,16 +491,17 @@ const SideBar: React.FC = ({ children }) => {
           }`}
         />
       </div>
+
+      <div className="flex items-center text-blue-100 justify-center mt-3 text-center py-6">
+        <span className="mx-2 text-base xl:text-medium font-semibold">JUMP</span>
+      </div>
       {/* side bar with logos and labels */}
       <div
-        className={`w-64 py-4 px-4 text-blue-100 text-sm font-medium ${
+        className={` w-56 md:w-64 xl:w-72 py-4 px-4 text-blue-100 text-sm font-medium ${
           OpenSidebar ? "block " : "hidden "
         }`}
       >
-        <div className="flex items-center justify-center mt-3 text-center py-6">
-          <span className="mx-2 text-2xl font-semibold">JUMP</span>
-        </div>
-        <div className=" text-sm ">
+        <div className=" text-sm pl-1 xl:pl-3">
           {OpenSidebar &&
             sampleData.map((item) => {
               return (
@@ -518,13 +518,10 @@ const SideBar: React.FC = ({ children }) => {
 
       {/* side bar with only logos */}
       <div
-        className={`w-20  py-4 text-blue-100 text-sm font-medium ${
+        className={`w-20 py-3 text-blue-100 text-sm font-medium overflow-x-hidden ${
           !OpenSidebar ? "block " : "hidden "
         }`}
       >
-        <div className="flex items-center justify-center mt-3 text-center py-6">
-          <span className="mx-2 text-2xl font-semibold">JUMP</span>
-        </div>
         <div className=" text-sm ">
           {!OpenSidebar &&
             sampleData.map((item) => {

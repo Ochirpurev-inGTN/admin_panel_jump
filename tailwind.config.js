@@ -1,5 +1,6 @@
 module.exports = {
-  purge: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  mode: 'jit',
+  purge: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}', './public/**/*.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -24,6 +25,9 @@ module.exports = {
       },
       margin: {
         '-15':'-3.7rem'
+      },
+      inset: {
+        20:'4.8rem'
       }
     },
   },
