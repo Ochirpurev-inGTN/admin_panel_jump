@@ -88,21 +88,21 @@ const Table = ({ data }: { data: Itable[] }) => {
                 "px-1 border border-solid py-3 text-xs uppercase border-l-0 border-r-0  font-semibold text-center"
               }
             >
-              Organization 1
+              Sending organization
             </th>
             <th
               className={
                 "px-1 border border-solid py-3 text-xs uppercase border-l-0 border-r-0  font-semibold text-center"
               }
             >
-              Organization 2
+              Receiving organization
             </th>
             <th
               className={
                 "px-1 border border-solid py-3 text-xs uppercase border-l-0 border-r-0  font-semibold text-center"
               }
             >
-              Organization 3
+              Supervising organization
             </th>
             <th
               className={
