@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center mt-3">
-        <p className="">Landing Page Content</p>
+        <h1 className="" data-testid='i1'>Landing Page Content</h1>
         <div className="m-8">
           <Link href={"/dashboard"}>
             <a className="bg-blue-300 px-3 py-2 rounded-md ">

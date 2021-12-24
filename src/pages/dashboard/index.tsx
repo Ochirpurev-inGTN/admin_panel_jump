@@ -60,12 +60,14 @@ interface IcustomInput {
   codeName: string;
   label: string;
   onchange: (codeName: string, value: string | Date | boolean) => void;
+  datatestid: string
 }
 
 const InputBoxWithLabel: React.FC<IcustomInput> = ({
   codeName,
   label,
   onchange,
+  datatestid
 }) => {
   return (
     <div className="my-1">
@@ -77,6 +79,8 @@ const InputBoxWithLabel: React.FC<IcustomInput> = ({
         autoComplete={"off"}
         className="input_in_dashboard_search"
         onChange={(e) => onchange(codeName, e.target.value)}
+        data-testid={datatestid}
+        autoFocus={datatestid === 'input1' ? true : false}
       />
     </div>
   );
@@ -207,16 +211,19 @@ const Dashboard: NextPageWithLayout = () => {
           codeName="userName"
           label="Username"
           onchange={stateHandler}
+          datatestid='input1'
         />
         <InputBoxWithLabel
           codeName="email"
           label="Email"
           onchange={stateHandler}
+          datatestid='input2'
         />
         <InputBoxWithLabel
           codeName="phone"
           label="Phone"
           onchange={stateHandler}
+          datatestid='input3'
         />
         <SelectBoxWithLabel
           label="Country"
@@ -253,6 +260,7 @@ const Dashboard: NextPageWithLayout = () => {
               endDate={searchState.stayDuration.end}
               onChange={(date) => stateHandler("stayDuration", date, "start")}
               className="m-1 w-24 p-1 border"
+              data-testid='datepicker1'
             />
             <DatePicker
               selected={searchState.stayDuration.end}
@@ -261,6 +269,7 @@ const Dashboard: NextPageWithLayout = () => {
               endDate={searchState.stayDuration.end}
               onChange={(date) => stateHandler("stayDuration", date, "end")}
               className="m-1 w-24 p-1 border"
+              data-testid='datepicker2'
             />
           </div>
         </div>
@@ -295,6 +304,7 @@ const Dashboard: NextPageWithLayout = () => {
             selected={searchState.registered}
             onChange={(date) => stateHandler("registered", date)}
             className="m-1 w-24 p-1 border"
+            data-testid='datepicker3'
           />
         </div>
         <div className="">
@@ -303,6 +313,7 @@ const Dashboard: NextPageWithLayout = () => {
             selected={searchState.lastLogin}
             onChange={(date) => stateHandler("lastLogin", date)}
             className="m-1 w-24 p-1 border"
+            data-testid='datepicker4'
           />
         </div>
         <RadioButtonWithLabel
@@ -327,6 +338,7 @@ const Dashboard: NextPageWithLayout = () => {
         className="p-4 w-full text-sm bg-gray-50 overflow-scroll max-h-[calc(100vh-56px)]"
         // style={{ maxHeight: myInnterHeight }}
       >
+        <label className="my-class">mamama</label>
         <Table data={[tempToTable]} />
       </div>
     </div>
