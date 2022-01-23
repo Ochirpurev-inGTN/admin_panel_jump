@@ -5,7 +5,7 @@ const Dashboard = () => {
         <Layout>
             <div className='flex center'>
             <p className=''>
-            Dashboard components & contents
+            Dashboard components & contents is edited by Ochiroo on ubuntu
             </p>
             </div>
         </Layout>
